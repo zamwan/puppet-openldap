@@ -1,12 +1,12 @@
 {
   "name": "camptocamp-openldap",
-  "version": "1.14.0",
-  "author": "Camptocamp",
+  "version": "1.14.1",
+  "author": "Camptocamp/Jacob Verhoeks",
   "summary": "Puppet OpenLDAP module",
   "license": "Apache-2.0",
-  "source": "https://github.com/camptocamp/puppet-openldap",
-  "project_page": "https://github.com/camptocamp/puppet-openldap",
-  "issues_url": "https://github.com/camptocamp/puppet-openldap/issues",
+  "source": "https://github.com/zamwan/puppet-openldap",
+  "project_page": "https://github.com/zamwan/puppet-openldap",
+  "issues_url": "https://github.com/zamwan/puppet-openldap/issues",
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
