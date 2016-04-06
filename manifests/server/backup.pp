@@ -15,7 +15,22 @@ define openldap::server::backup
         fail 'class ::openldap::server has not been evaluated'
           }
 
-  $cron_command = "slapcat -b \"${suffix}\"|gzip > \"${path}/openldap-${index}.ldif.gz\""
+# WIP
+#
+# if ! defined(Class['openldap::server::database']) {
+#          fail 'class ::openldap::server::database has not been evaluated'
+        }
+
+#  $::openldap::server::databases.each |String $resource, Hash $attributes| {
+#      $file = "/tmp/${resource}" 
+#     
+#    file { $file:
+#       path => $file,
+#      ensure => file,
+#     }
+#  }
+
+  $cron_command = "slapcat -b \"${suffix}\"|gzip > \"${path}/openldap-${suffix}.ldif.gz\""
   
   cron { "slapcat-backup-${index}-cron":
         ensure      => $ensure,
