@@ -9,26 +9,22 @@ define openldap::server::backup
 	String[1] $email = $::servermonitor
 )
 {
-    
+  include ::openldap::server  
  
   if ! defined(Class['openldap::server']) {
         fail 'class ::openldap::server has not been evaluated'
           }
 
-# WIP
-#
-# if ! defined(Class['openldap::server::database']) {
-#          fail 'class ::openldap::server::database has not been evaluated'
-        }
 
-#  $::openldap::server::databases.each |String $resource, Hash $attributes| {
-#      $file = "/tmp/${resource}" 
-#     
-#    file { $file:
-#       path => $file,
-#      ensure => file,
-#     }
-#  }
+
+  $::openldap::server::databases.each |String $resource, Hash $attributes| {
+      $file = "/tmp/${resource}" 
+     
+    file { $file:
+       path => $file,
+      ensure => file,
+     }
+  }
 
   $cron_command = "slapcat -b \"${suffix}\"|gzip > \"${path}/openldap-${suffix}.ldif.gz\""
   
