@@ -3,7 +3,7 @@ define openldap::server::backup
 	Integer $index, 
 	String[1] $suffix = $title,
 	String[1] $hour='*',
-	String[1] $minute='5',
+	String[1] $minute='*/5',
 	String[1] $weekday='*',
 	String[1] $path='/tmp',
 	String[1] $email = $::servermonitor
