@@ -1,4 +1,4 @@
-class openldap::server::backup 
+define openldap::server::backup 
 (
 	String[1] $hour='*',
 	String[1] $minute='*/5',
@@ -19,7 +19,7 @@ class openldap::server::backup
      mode    => '0700',
      owner   => 'root',
      group   => $mysql::params::root_group,
-     content => template('mysql/backup-openldap.sh.erb'),
+     content => template('openldap/backup-openldap.sh.erb'),
   }
 
   
