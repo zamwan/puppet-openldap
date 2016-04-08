@@ -1,36 +1,32 @@
-define openldap::server::backup 
+class openldap::server::backup 
 (
-	Integer $index, 
-	String[1] $suffix = $title,
 	String[1] $hour='*',
 	String[1] $minute='*/5',
 	String[1] $weekday='*',
 	String[1] $path='/tmp',
-	String[1] $email = $::servermonitor
+	String[1] $email =  'root',
 )
 {
-  include ::openldap::server  
- 
+
+
   if ! defined(Class['openldap::server']) {
         fail 'class ::openldap::server has not been evaluated'
           }
-
-
-
-  $::openldap::server::databases.each |String $resource, Hash $attributes| {
-      $file = "/tmp/${resource}" 
-     
-    file { $file:
-       path => $file,
-      ensure => file,
-     }
+ 
+ file { 'backup-openldap.sh':
+     ensure  => $ensure,
+     path    => '/usr/local/sbin/backup-openldap.sh',
+     mode    => '0700',
+     owner   => 'root',
+     group   => $mysql::params::root_group,
+     content => template('mysql/backup-openldap.sh.erb'),
   }
 
-  $cron_command = "slapcat -b \"${suffix}\"|gzip > \"${path}/openldap-${suffix}.ldif.gz\""
   
-  cron { "slapcat-backup-${index}-cron":
+
+  cron { "openldap-backup--cron":
         ensure      => $ensure,
-        command     => $cron_command,
+        command     => "/usr/local/sbin/backup-openldap.sh ${path}",
         user        => $::os::params::adminuser,
         hour        => $hour,
         minute      => $minute,

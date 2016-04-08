@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ $# -eq 0 ] ; then
+   BACKUPPATH=/tmp/;
+else
+  if [ -d "$1" ] ; then
+     BACKUPPATH=$1;
+  else
+     echo "No valid path"
+     exit -1;
+  fi
+fi
+
+BACKUPPATH=/tmp/t
+STAMP=$(echo "$(date +%Y%m%d%H).ldif")
+echo $STAMP
+CONFIGFILE=$(echo "openldap-config-$STAMP")
+
+slapcat -b "cn=config" -l $BACKUPPATH/$CONFIGFILE
+slapcat -b cn=config | grep -i olcSuffix | awk -F "olcSuffix: " '{ print $2 }' | xargs -n 1 -I {} slapcat -b {} -l $BACKUPPATH/openldap-suf-{}-$STAMP
+
+
+exit $?

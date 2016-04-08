@@ -30,7 +30,6 @@ class openldap::server(
   class { '::openldap::server::service': }
 
   class { '::openldap::server::slapdconf': }
-
   case $provider {
     'augeas': {
       Class['openldap::server::install'] ->
